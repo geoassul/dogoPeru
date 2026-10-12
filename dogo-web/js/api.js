@@ -6,7 +6,7 @@ window.DoGo = window.DoGo || {};
 
     const { CONFIG } = DoGo;
 
-    const TIMEOUT_MS = 8000;
+    const TIMEOUT_MS = 60000;
     const CACHE_MS = 60_000; // misma vigencia que el Cache-Control del backend
 
     /** Error al consultar la API (servidor apagado, sin conexión o respuesta inválida). */

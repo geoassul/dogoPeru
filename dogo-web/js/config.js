@@ -13,7 +13,7 @@ window.DoGo = window.DoGo || {};
     DoGo.CONFIG = {
         // URL del backend (API Spring). En producción: la URL pública del backend, p. ej. https://api.doandgo.pe
         // Para pruebas se puede sobrescribir sin tocar el código:  localStorage.setItem('dogoApiUrl', 'http://localhost:8081')
-        API_BASE_URL: readOverride('dogoApiUrl') || 'https://dogoperu.onrender.com/',
+        API_BASE_URL: readOverride('dogoApiUrl') || 'https://dogoperu.onrender.com',
 
         // Formspree (envío del formulario de contacto por correo). Crea un formulario gratis en https://formspree.io
         // y pega aquí su ID (p. ej. 'xyzabcd'). Vacío = el botón "Enviar por correo" abre el programa de correo (mailto).

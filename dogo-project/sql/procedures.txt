@@ -1,0 +1,292 @@
+DELIMITER $$
+
+-- =============================
+-- PROCEDIMIENTOS PARA CATEGORIAS
+-- =============================
+CREATE PROCEDURE sp_categorias_crear(IN p_nombre VARCHAR(30))
+BEGIN
+    INSERT INTO categorias(nombre) VALUES (p_nombre);
+END$$
+
+CREATE PROCEDURE sp_categorias_actualizar(IN p_id INT, IN p_nombre VARCHAR(30))
+BEGIN
+    UPDATE categorias SET nombre = p_nombre WHERE id = p_id;
+END$$
+
+CREATE PROCEDURE sp_categorias_eliminar(IN p_id INT)
+BEGIN
+    -- Considerar aquí si hay productos asociados y qué hacer (ej. NULL, RESTRICT, CASCADE)
+    -- Por simplicidad, asumimos que no se borran si hay productos.
+    DELETE FROM categorias WHERE id = p_id;
+END$$
+
+CREATE PROCEDURE sp_categorias_listar()
+BEGIN
+    SELECT id, nombre FROM categorias ORDER BY nombre;
+END$$
+
+-- ==============================
+-- PROCEDIMIENTOS PARA PROVEEDORES
+-- ==============================
+CREATE PROCEDURE sp_proveedores_crear(IN p_nombre VARCHAR(30), IN p_telefono VARCHAR(10))
+BEGIN
+    INSERT INTO proveedores(nombre, telefono) VALUES (p_nombre, p_telefono);
+END$$
+
+CREATE PROCEDURE sp_proveedores_actualizar(IN p_id INT, IN p_nombre VARCHAR(30), IN p_telefono VARCHAR(10))
+BEGIN
+    UPDATE proveedores SET nombre = p_nombre, telefono = p_telefono WHERE id = p_id;
+END$$
+
+CREATE PROCEDURE sp_proveedores_eliminar(IN p_id INT)
+BEGIN
+    -- Considerar la FK en productos
+    DELETE FROM proveedores WHERE id = p_id;
+END$$
+
+CREATE PROCEDURE sp_proveedores_listar()
+BEGIN
+    SELECT id, nombre, telefono FROM proveedores ORDER BY nombre;
+END$$
+
+-- ==============================
+-- PROCEDIMIENTOS PARA PRODUCTOS
+-- ==============================
+CREATE PROCEDURE sp_productos_crear(
+    IN p_nombre VARCHAR(100),
+    IN p_categoria_id INT,
+    IN p_proveedor_id INT
+)
+BEGIN
+    INSERT INTO productos(nombre, categoria_id, proveedor_id)
+    VALUES (p_nombre, p_categoria_id, p_proveedor_id);
+    SELECT LAST_INSERT_ID() AS nuevo_producto_id; -- Devuelve el ID del producto creado
+END$$
+
+CREATE PROCEDURE sp_productos_actualizar(
+    IN p_id INT,
+    IN p_nombre VARCHAR(100),
+    IN p_categoria_id INT,
+    IN p_proveedor_id INT
+)
+BEGIN
+    UPDATE productos
+    SET nombre = p_nombre, categoria_id = p_categoria_id, proveedor_id = p_proveedor_id
+    WHERE id = p_id;
+END$$
+
+CREATE PROCEDURE sp_productos_eliminar(IN p_id INT)
+BEGIN
+    -- Al borrar un producto, sus variantes e imágenes se borrarán por CASCADE
+    DELETE FROM productos WHERE id = p_id;
+END$$
+
+CREATE PROCEDURE sp_productos_listar()
+BEGIN
+    SELECT
+        p.id, p.nombre, c.nombre AS categoria, pr.nombre AS proveedor
+    FROM productos p
+    JOIN categorias c ON p.categoria_id = c.id
+    JOIN proveedores pr ON p.proveedor_id = pr.id
+    ORDER BY p.nombre;
+END$$
+
+CREATE PROCEDURE sp_productos_obtener_por_id(IN p_id INT)
+BEGIN
+    SELECT
+        p.id, p.nombre, p.categoria_id, p.proveedor_id
+    FROM productos p
+    WHERE p.id = p_id;
+END$$
+
+-- =================================================
+-- PROCEDIMIENTOS PARA VARIANTE_PRODUCTO (SKUS)
+-- =================================================
+CREATE PROCEDURE sp_variantes_crear(
+    IN p_producto_id INT,
+    IN p_sku VARCHAR(100),
+    IN p_talla VARCHAR(20),
+    IN p_tipoManga VARCHAR(20),
+    IN p_color VARCHAR(20),
+    IN p_costo DECIMAL(6, 2),
+    IN p_precio DECIMAL(6, 2),
+    IN p_stock INT
+)
+BEGIN
+    -- Validar que el SKU no exista (aunque la restricción UNIQUE ya lo hace)
+    IF NOT EXISTS (SELECT 1 FROM variantes_producto WHERE sku = p_sku) THEN
+        INSERT INTO variantes_producto(producto_id, sku, talla, tipoManga, color, costo_adquisicion, precio_venta, stock)
+        VALUES (p_producto_id, p_sku, p_talla, p_tipoManga, p_color, p_costo, p_precio, p_stock);
+        SELECT LAST_INSERT_ID() AS nueva_variante_id;
+    ELSE
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: El SKU ya existe.';
+    END IF;
+END$$
+
+CREATE PROCEDURE sp_variantes_actualizar(
+    IN p_id INT,
+    IN p_producto_id INT,
+    IN p_sku VARCHAR(100),
+    IN p_talla VARCHAR(20),
+    IN p_tipoManga VARCHAR(20),
+    IN p_color VARCHAR(20),
+    IN p_costo DECIMAL(6, 2),
+    IN p_precio DECIMAL(6, 2),
+    IN p_stock INT
+)
+BEGIN
+    -- Validar que el SKU no exista en OTRA variante (si cambia el SKU)
+    IF p_sku IS NOT NULL AND EXISTS (SELECT 1 FROM variantes_producto WHERE sku = p_sku AND id != p_id) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: El SKU ya existe para otra variante.';
+    ELSE
+        UPDATE variantes_producto
+        SET producto_id = p_producto_id, sku = p_sku, talla = p_talla, tipoManga = p_tipoManga, color = p_color,
+            costo_adquisicion = p_costo, precio_venta = p_precio, stock = p_stock
+        WHERE id = p_id;
+    END IF;
+END$$
+
+CREATE PROCEDURE sp_variantes_eliminar(IN p_id INT)
+BEGIN
+    -- Al borrar una variante, sus imágenes y su historial de ventas se borrarán por CASCADE
+    DELETE FROM variantes_producto WHERE id = p_id;
+END$$
+
+CREATE PROCEDURE sp_variantes_listar(IN p_producto_id INT)
+BEGIN
+    SELECT
+        v.id, v.producto_id, v.sku, v.talla, v.tipoManga, v.color,
+        v.costo_adquisicion, v.precio_venta, v.stock
+    FROM variantes_producto v
+    WHERE v.producto_id = p_producto_id
+    ORDER BY v.sku;
+END$$
+
+CREATE PROCEDURE sp_variantes_buscar_por_sku(IN p_sku VARCHAR(100))
+BEGIN
+    SELECT
+        v.id, v.producto_id, v.sku, v.talla, v.tipoManga, v.color,
+        v.costo_adquisicion, v.precio_venta, v.stock
+    FROM variantes_producto v
+    WHERE v.sku = p_sku;
+END$$
+
+-- Procedimiento para buscar variantes por múltiples criterios (útil para filtros web)
+CREATE PROCEDURE sp_variantes_buscar_avanzado(
+    IN p_producto_id INT,
+    IN p_talla VARCHAR(20),
+    IN p_tipoManga VARCHAR(20),
+    IN p_color VARCHAR(20)
+)
+BEGIN
+    SELECT
+        v.id, v.producto_id, v.sku, v.talla, v.tipoManga, v.color,
+        v.costo_adquisicion, v.precio_venta, v.stock
+    FROM variantes_producto v
+    WHERE
+        (p_producto_id IS NULL OR v.producto_id = p_producto_id) AND
+        (p_talla IS NULL OR v.talla = p_talla) AND
+        (p_tipoManga IS NULL OR v.tipoManga = p_tipoManga) AND
+        (p_color IS NULL OR v.color = p_color)
+    ORDER BY v.sku;
+END$$
+
+-- Procedimiento para actualizar stock (aumentar o disminuir)
+CREATE PROCEDURE sp_variantes_actualizar_stock(IN p_variante_id INT, IN p_cantidad_cambio INT)
+BEGIN
+    UPDATE variantes_producto
+    SET stock = stock + p_cantidad_cambio
+    WHERE id = p_variante_id AND stock + p_cantidad_cambio >= 0; -- Evita stock negativo
+END$$
+
+-- =====================================
+-- PROCEDIMIENTOS PARA IMAGENES_VARIANTE
+-- =====================================
+CREATE PROCEDURE sp_imagenes_variante_crear(
+    IN p_variante_id INT,
+    IN p_url_imagen VARCHAR(500),
+    IN p_tipo_imagen ENUM('principal', 'galeria', 'detalle'),
+    IN p_orden TINYINT
+)
+BEGIN
+    INSERT INTO imagenes_variante(variante_id, url_imagen, tipo_imagen, orden)
+    VALUES (p_variante_id, p_url_imagen, p_tipo_imagen, p_orden);
+    SELECT LAST_INSERT_ID() AS nueva_imagen_id;
+END$$
+
+CREATE PROCEDURE sp_imagenes_variante_eliminar(IN p_id INT)
+BEGIN
+    DELETE FROM imagenes_variante WHERE id = p_id;
+END$$
+
+CREATE PROCEDURE sp_imagenes_variante_listar_por_variante(IN p_variante_id INT)
+BEGIN
+    SELECT id, url_imagen, tipo_imagen, orden
+    FROM imagenes_variante
+    WHERE variante_id = p_variante_id
+    ORDER BY tipo_imagen, orden;
+END$$
+
+-- ==============================
+-- PROCEDIMIENTOS PARA VENTAS
+-- ==============================
+-- Procedimiento para registrar una venta completa (Transaccional)
+CREATE PROCEDURE sp_registrar_venta_completa(
+    IN p_total_venta DECIMAL(6, 2),
+    IN p_detalle_json TEXT -- JSON Array: '[{"variante_id":1, "cantidad":2, "precio":25.50, "costo":15.00}, ...]'
+)
+BEGIN
+    DECLARE v_venta_id INT;
+    DECLARE v_variante_id INT;
+    DECLARE v_cantidad INT;
+    DECLARE v_precio DECIMAL(6,2);
+    DECLARE v_costo DECIMAL(6,2);
+    DECLARE i INT DEFAULT 0;
+    DECLARE n INT DEFAULT 0;
+    DECLARE v_stock_actual INT;
+
+    -- Iniciar transacción
+    START TRANSACTION;
+
+    -- 1. Insertar la venta
+    INSERT INTO ventas(total_venta) VALUES (p_total_venta);
+    SET v_venta_id = LAST_INSERT_ID();
+
+    -- 2. Procesar el detalle del JSON
+    SET n = JSON_LENGTH(p_detalle_json);
+    WHILE i < n DO
+        SET v_variante_id = JSON_UNQUOTE(JSON_EXTRACT(p_detalle_json, CONCAT('$[', i, '].variante_id')));
+        SET v_cantidad = JSON_UNQUOTE(JSON_EXTRACT(p_detalle_json, CONCAT('$[', i, '].cantidad')));
+        SET v_precio = JSON_UNQUOTE(JSON_EXTRACT(p_detalle_json, CONCAT('$[', i, '].precio')));
+        SET v_costo = JSON_UNQUOTE(JSON_EXTRACT(p_detalle_json, CONCAT('$[', i, '].costo')));
+
+        -- Obtener stock actual para validar
+        SELECT stock INTO v_stock_actual FROM variantes_producto WHERE id = v_variante_id;
+
+        -- Validar si hay suficiente stock
+        IF v_stock_actual IS NULL OR v_stock_actual < v_cantidad THEN
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: No hay suficiente stock para una de las variantes.';
+        END IF;
+
+        -- Insertar en detalle_venta
+        INSERT INTO detalle_venta(venta_id, variante_id, cantidad, precio_unitario_venta, costo_unitario_adquisicion)
+        VALUES (v_venta_id, v_variante_id, v_cantidad, v_precio, v_costo);
+
+        -- Actualizar el stock (usando el SP para ello)
+        CALL sp_variantes_actualizar_stock(v_variante_id, -v_cantidad);
+
+        SET i = i + 1;
+    END WHILE;
+
+    -- Confirmar transacción
+    COMMIT;
+END$$
+
+CREATE PROCEDURE sp_ventas_listar_ultimas(IN p_limite INT)
+BEGIN
+    SELECT
+        v.id, v.fecha_venta, v.total_venta
+    FROM ventas v
+    ORDER BY v.fecha_venta DESC
+    LIMIT p_limite;
+END$$

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoGo Store - Panel</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%90%95%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/admin/css/admin.css">
+</head>
+<body>
+    <header class="topbar">
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
+        <div class="brand">🐕 DoGo Store</div>
+        <div class="session">
+            <span id="sessionUser" class="session-user"></span>
+            <button class="btn btn-light btn-sm" id="logoutBtn">Cerrar sesión</button>
+        </div>
+    </header>
+
+    <div class="layout">
+        <nav class="sidebar" id="sidebar" aria-label="Secciones"></nav>
+        <main class="content" id="app" tabindex="-1"></main>
+    </div>
+
+    <div class="toasts" id="toasts" aria-live="polite"></div>
+
+    <script type="module" src="/admin/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+CREATE DATABASE IF NOT EXISTS tienda_ropa_db;
+drop database tienda_ropa_db;
+use tienda_ropa_db;
+
+DROP TABLE IF EXISTS detalle_venta;
+DROP TABLE IF EXISTS ventas;
+DROP TABLE IF EXISTS imagenes_variante;
+DROP TABLE IF EXISTS variantes_producto; -- Esta es la tabla que modificaremos
+DROP TABLE IF EXISTS productos;
+DROP TABLE IF EXISTS categorias;
+DROP TABLE IF EXISTS proveedores;
+
+
+-- Tabla para guardar a quién le compras la ropa
+CREATE TABLE proveedores (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(30) NOT NULL,
+    telefono VARCHAR(10) NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+-- Para clasificar el tipo de prenda (Polo, Pantalón, etc.)
+CREATE TABLE categorias (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(30) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_nombre_categoria(nombre)
+) ENGINE=InnoDB;
+
+-- La "Ficha" general del producto. No tiene stock ni precio.
+CREATE TABLE productos (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(100) NOT NULL, -- Ej: "Polo Manga Corta Básico", "Jean Clásico"
+    categoria_id INT UNSIGNED NOT NULL,
+    proveedor_id INT UNSIGNED NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_productos_categorias FOREIGN KEY (categoria_id) REFERENCES categorias(id),
+    CONSTRAINT fk_productos_proveedores FOREIGN KEY (proveedor_id) REFERENCES proveedores(id)
+) ENGINE=InnoDB;
+
+-- Tabla para almacenar las imágenes DE CADA VARIANTE DE PRODUCTO
+CREATE TABLE imagenes_variante (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    variante_id INT UNSIGNED NOT NULL, -- FK a la tabla 'variantes_producto'
+    url_imagen VARCHAR(500) NOT NULL,  -- La ruta o URL de la imagen
+    tipo_imagen ENUM('principal', 'galeria', 'detalle') NOT NULL DEFAULT 'principal', -- Define el propósito de la imagen
+    orden TINYINT UNSIGNED DEFAULT 0,  -- Para ordenar imágenes (ej. 0 para la principal)
+    PRIMARY KEY (id),
+    CONSTRAINT fk_imagenes_variante_variante
+        FOREIGN KEY (variante_id) REFERENCES variantes_producto(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- ¡LA TABLA MÁS IMPORTANTE! Es cada artículo físico en tu tienda.
+-- Este es tu inventario real.
+CREATE TABLE variantes_producto (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    producto_id INT UNSIGNED NOT NULL,
+    sku VARCHAR(100) NOT NULL, -- Código de Barras / Código único. Ej: "POLO-V-AZUL-M-BASICO"
+    talla VARCHAR(20) NULL,
+    tipoManga VARCHAR(20) NULL,
+    color VARCHAR(20) NULL, -- ¡CORREGIDO! La columna 'color' ha sido reincorporada.
+    costo_adquisicion DECIMAL(6, 2) NOT NULL, -- A cuánto lo compraste
+    precio_venta DECIMAL(6, 2) NOT NULL,      -- A cuánto lo vendes
+    stock INT NOT NULL DEFAULT 0,              -- Cuántas unidades tienes
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_sku (sku),
+    CONSTRAINT fk_variantes_productos FOREIGN KEY (producto_id) REFERENCES productos(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- El "ticket" de venta. Agrupa los productos vendidos en una transacción.
+CREATE TABLE ventas (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    fecha_venta TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    total_venta DECIMAL(6, 2) NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+-- Cada línea del ticket de venta.
+CREATE TABLE detalle_venta (
+    venta_id INT UNSIGNED NOT NULL,
+    variante_id INT UNSIGNED NOT NULL,
+    cantidad INT UNSIGNED NOT NULL,
+    -- Guardamos los precios al momento de la venta para registros perfectos
+    precio_unitario_venta DECIMAL(6, 2) NOT NULL,
+    costo_unitario_adquisicion DECIMAL(6, 2) NOT NULL,
+    PRIMARY KEY (venta_id, variante_id),
+    CONSTRAINT fk_detalle_ventas FOREIGN KEY (venta_id) REFERENCES ventas(id) ON DELETE CASCADE,
+    CONSTRAINT fk_detalle_variantes FOREIGN KEY (variante_id) REFERENCES variantes_producto(id)
+) ENGINE=InnoDB;

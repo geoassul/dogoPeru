@@ -1,0 +1,688 @@
+============================================================================
+                    DOGO STORE API v1.0 - ENDPOINTS PARA POSTMAN
+                            Base URL: http://localhost:8080
+                           Fecha: Septiembre 2025
+============================================================================
+
+📋 TABLA DE CONTENIDOS:
+1. AUTENTICACIÓN (/auth)
+2. CATEGORÍAS (/api/categorias) - ADMIN ONLY
+3. PROVEEDORES (/api/proveedores) - ADMIN ONLY
+4. PRODUCTOS (/api/productos) - lectura ADMIN/USER, escritura ADMIN
+5. VARIANTES DE PRODUCTO (/api/variantes-producto) - lectura ADMIN/USER, escritura ADMIN
+6. IMÁGENES DE VARIANTE (/api/imagenes-variante) - lectura ADMIN/USER, escritura ADMIN
+7. VENTAS (/api/ventas) - lectura y POST /completa ADMIN/USER, resto ADMIN
+8. DETALLE DE VENTAS (/api/detalle-venta) - lectura ADMIN/USER, escritura ADMIN
+9. USUARIOS (/api/usuarios) - ADMIN ONLY
+10. DASHBOARD (/api/dashboard) - ADMIN ONLY
+11. CATÁLOGO PÚBLICO (/api/public) - SIN LOGIN, solo GET
+
+PANEL WEB: http://localhost:8080/admin/ (entrar por /login.html)
+
+============================================================================
+🔐 1. AUTENTICACIÓN (/auth)
+============================================================================
+
+1.1 POST /auth/login
+    Descripción: Iniciar sesión y obtener token JWT
+    Headers: Content-Type: application/json
+    Body (JSON):
+    {
+        "username": "admin",
+        "password": "password"
+    }
+    Respuesta:
+    {
+        "success": true,
+        "message": "Login exitoso",
+        "data": {
+            "token": "eyJhbGciOiJIUzI1NiJ9...",
+            "type": "Bearer",
+            "user": {
+                "id": 1,
+                "username": "admin",
+                "role": "ADMIN"
+            }
+        }
+    }
+
+1.2 GET /auth/validate
+    Descripción: Validar token JWT actual
+    Headers: Authorization: Bearer {token}
+    Respuesta:
+    {
+        "success": true,
+        "message": "Token válido",
+        "data": "OK"
+    }
+
+1.3 POST /auth/verify
+    Descripción: Verificar token y obtener información del usuario
+    Headers: Authorization: Bearer {token}
+    Respuesta:
+    {
+        "success": true,
+        "message": "Token verificado correctamente",
+        "data": {
+            "id": 1,
+            "username": "admin",
+            "role": "ADMIN"
+        }
+    }
+
+============================================================================
+📦 2. CATEGORÍAS (/api/categorias) - ADMIN ONLY
+============================================================================
+
+2.1 GET /api/categorias
+    Descripción: Obtener todas las categorías
+    Headers: Authorization: Bearer {token}
+    Respuesta:
+    {
+        "success": true,
+        "message": "Datos obtenidos correctamente",
+        "data": [
+            {
+                "id": 1,
+                "nombre": "Camisas"
+            }
+        ]
+    }
+
+2.2 GET /api/categorias/{id}
+    Descripción: Obtener categoría por ID
+    Headers: Authorization: Bearer {token}
+    URL: /api/categorias/1
+    Respuesta:
+    {
+        "success": true,
+        "message": "Datos obtenidos correctamente",
+        "data": {
+            "id": 1,
+            "nombre": "Camisas"
+        }
+    }
+
+2.3 POST /api/categorias
+    Descripción: Crear nueva categoría
+    Headers: 
+        Authorization: Bearer {token}
+        Content-Type: application/json
+    Body (JSON):
+    {
+        "nombre": "Pantalones"
+    }
+    Validaciones:
+    - nombre: Obligatorio, entre 2 y 100 caracteres
+    Respuesta:
+    {
+        "success": true,
+        "message": "Categoría creada exitosamente",
+        "data": {
+            "id": 2,
+            "nombre": "Pantalones"
+        }
+    }
+
+2.4 PUT /api/categorias/{id}
+    Descripción: Actualizar categoría existente
+    Headers: 
+        Authorization: Bearer {token}
+        Content-Type: application/json
+    URL: /api/categorias/1
+    Body (JSON):
+    {
+        "nombre": "Camisas Formales"
+    }
+    Respuesta:
+    {
+        "success": true,
+        "message": "Categoría actualizada exitosamente",
+        "data": {
+            "id": 1,
+            "nombre": "Camisas Formales"
+        }
+    }
+
+2.5 DELETE /api/categorias/{id}
+    Descripción: Eliminar categoría
+    Headers: Authorization: Bearer {token}
+    URL: /api/categorias/1
+    Respuesta:
+    {
+        "success": true,
+        "message": "Categoría eliminada exitosamente",
+        "data": null
+    }
+
+============================================================================
+🏢 3. PROVEEDORES (/api/proveedores) - ADMIN ONLY
+============================================================================
+
+3.1 GET /api/proveedores
+    Descripción: Obtener todos los proveedores
+    Headers: Authorization: Bearer {token}
+    Respuesta:
+    {
+        "success": true,
+        "message": "Datos obtenidos correctamente",
+        "data": [
+            {
+                "id": 1,
+                "nombre": "Textiles ABC",
+                "telefono": "+51 987654321"
+            }
+        ]
+    }
+
+3.2 GET /api/proveedores/{id}
+    Descripción: Obtener proveedor por ID
+    Headers: Authorization: Bearer {token}
+    URL: /api/proveedores/1
+
+3.3 POST /api/proveedores
+    Descripción: Crear nuevo proveedor
+    Headers: 
+        Authorization: Bearer {token}
+        Content-Type: application/json
+    Body (JSON):
+    {
+        "nombre": "Textiles XYZ",
+        "telefono": "+51 123456789"
+    }
+    Validaciones:
+    - nombre: Obligatorio, entre 2 y 100 caracteres
+    - telefono: Obligatorio, formato válido de teléfono
+
+3.4 PUT /api/proveedores/{id}
+    Descripción: Actualizar proveedor existente
+    Headers: 
+        Authorization: Bearer {token}
+        Content-Type: application/json
+    URL: /api/proveedores/1
+
+3.5 DELETE /api/proveedores/{id}
+    Descripción: Eliminar proveedor
+    Headers: Authorization: Bearer {token}
+    URL: /api/proveedores/1
+
+============================================================================
+📱 4. PRODUCTOS (/api/productos) - ADMIN/USER
+============================================================================
+
+4.1 GET /api/productos
+    Descripción: Obtener todos los productos
+    Headers: Authorization: Bearer {token}
+    Respuesta:
+    {
+        "success": true,
+        "message": "Datos obtenidos correctamente",
+        "data": [
+            {
+                "id": 1,
+                "nombre": "Camisa Polo",
+                "categoriaId": 1,
+                "categoriaNombre": "Camisas",
+                "proveedorId": 1,
+                "proveedorNombre": "Textiles ABC"
+            }
+        ]
+    }
+
+4.2 GET /api/productos/{id}
+    Descripción: Obtener producto por ID
+    Headers: Authorization: Bearer {token}
+    URL: /api/productos/1
+
+4.3 POST /api/productos
+    Descripción: Crear nuevo producto (ADMIN ONLY)
+    Headers: 
+        Authorization: Bearer {token}
+        Content-Type: application/json
+    Body (JSON):
+    {
+        "nombre": "Camisa Oxford",
+        "categoriaId": 1,
+        "proveedorId": 1
+    }
+    Validaciones:
+    - nombre: Obligatorio, entre 2 y 100 caracteres
+    - categoriaId: Obligatorio, debe ser positivo
+    - proveedorId: Obligatorio, debe ser positivo
+
+4.4 PUT /api/productos/{id}
+    Descripción: Actualizar producto existente (ADMIN ONLY)
+    Headers: 
+        Authorization: Bearer {token}
+        Content-Type: application/json
+    URL: /api/productos/1
+
+4.5 DELETE /api/productos/{id}
+    Descripción: Eliminar producto (ADMIN ONLY)
+    Headers: Authorization: Bearer {token}
+    URL: /api/productos/1
+
+4.6 GET /api/productos/categoria/{categoriaId}
+    Descripción: Obtener productos por categoría
+    Headers: Authorization: Bearer {token}
+    URL: /api/productos/categoria/1
+
+4.7 GET /api/productos/proveedor/{proveedorId}
+    Descripción: Obtener productos por proveedor
+    Headers: Authorization: Bearer {token}
+    URL: /api/productos/proveedor/1
+
+============================================================================
+🎨 5. VARIANTES DE PRODUCTO (/api/variantes-producto) - ADMIN/USER
+============================================================================
+
+5.1 GET /api/variantes-producto
+    Descripción: Obtener todas las variantes
+    Headers: Authorization: Bearer {token}
+    Respuesta:
+    {
+        "success": true,
+        "message": "Datos obtenidos correctamente",
+        "data": [
+            {
+                "id": 1,
+                "productoId": 1,
+                "productoNombre": "Camisa Polo",
+                "sku": "CAM-POL-AZU-M-MC",
+                "talla": "M",
+                "tipoManga": "Manga Corta",
+                "color": "Azul",
+                "costoAdquisicion": 25.50,
+                "precioVenta": 45.00,
+                "stock": 10
+            }
+        ]
+    }
+
+5.2 GET /api/variantes-producto/{id}
+    Descripción: Obtener variante por ID
+    Headers: Authorization: Bearer {token}
+    URL: /api/variantes-producto/1
+
+5.3 POST /api/variantes-producto
+    Descripción: Crear nueva variante (ADMIN ONLY)
+    Headers: 
+        Authorization: Bearer {token}
+        Content-Type: application/json
+    Body (JSON):
+    {
+        "productoId": 1,
+        "sku": "CAM-POL-ROJ-L-MC",
+        "talla": "L",
+        "tipoManga": "Manga Corta",
+        "color": "Rojo",
+        "costoAdquisicion": 25.50,
+        "precioVenta": 45.00,
+        "stock": 15
+    }
+
+5.4 PUT /api/variantes-producto/{id}
+    Descripción: Actualizar variante existente (ADMIN ONLY)
+    Headers: 
+        Authorization: Bearer {token}
+        Content-Type: application/json
+    URL: /api/variantes-producto/1
+
+5.5 DELETE /api/variantes-producto/{id}
+    Descripción: Eliminar variante (ADMIN ONLY)
+    Headers: Authorization: Bearer {token}
+    URL: /api/variantes-producto/1
+
+5.6 GET /api/variantes-producto/producto/{productoId}
+    Descripción: Obtener variantes por producto
+    Headers: Authorization: Bearer {token}
+    URL: /api/variantes-producto/producto/1
+
+5.7 GET /api/variantes-producto/stock/{minStock}
+    Descripción: Obtener variantes con stock mayor a cantidad especificada
+    Headers: Authorization: Bearer {token}
+    URL: /api/variantes-producto/stock/5
+
+5.8 GET /api/variantes-producto/sku/{sku}
+    Descripción: Obtener variante por SKU
+    Headers: Authorization: Bearer {token}
+    URL: /api/variantes-producto/sku/CAM-POL-AZU-M-MC
+
+============================================================================
+🖼️ 6. IMÁGENES DE VARIANTE (/api/imagenes-variante) - ADMIN/USER
+============================================================================
+
+6.1 GET /api/imagenes-variante
+    Descripción: Obtener todas las imágenes
+    Headers: Authorization: Bearer {token}
+    Respuesta:
+    {
+        "success": true,
+        "message": "Datos obtenidos correctamente",
+        "data": [
+            {
+                "id": 1,
+                "varianteId": 1,
+                "urlImagen": "https://example.com/image1.jpg",
+                "tipoImagen": "principal",
+                "orden": 0
+            }
+        ]
+    }
+
+6.2 GET /api/imagenes-variante/{id}
+    Descripción: Obtener imagen por ID
+    Headers: Authorization: Bearer {token}
+    URL: /api/imagenes-variante/1
+
+6.3 POST /api/imagenes-variante
+    Descripción: Crear nueva imagen (ADMIN ONLY)
+    Headers: 
+        Authorization: Bearer {token}
+        Content-Type: application/json
+    Body (JSON):
+    {
+        "varianteId": 1,
+        "urlImagen": "https://example.com/image2.jpg",
+        "tipoImagen": "galeria",
+        "orden": 1
+    }
+
+6.4 PUT /api/imagenes-variante/{id}
+    Descripción: Actualizar imagen existente (ADMIN ONLY)
+    Headers: 
+        Authorization: Bearer {token}
+        Content-Type: application/json
+    URL: /api/imagenes-variante/1
+
+6.5 DELETE /api/imagenes-variante/{id}
+    Descripción: Eliminar imagen (ADMIN ONLY)
+    Headers: Authorization: Bearer {token}
+    URL: /api/imagenes-variante/1
+
+6.6 GET /api/imagenes-variante/variante/{varianteId}
+    Descripción: Obtener imágenes por variante
+    Headers: Authorization: Bearer {token}
+    URL: /api/imagenes-variante/variante/1
+
+6.7 POST /api/imagenes-variante/upload
+    Descripción: Subir imagen con archivo (ADMIN ONLY)
+    Headers: Authorization: Bearer {token}
+    Content-Type: multipart/form-data
+    Form Data:
+    - file: [archivo de imagen]
+    - varianteId: 1
+    - tipoImagen: "principal"
+    - orden: 0
+    - altText: "Descripción de la imagen" (opcional)
+
+============================================================================
+💰 7. VENTAS (/api/ventas) - lectura y POST /completa ADMIN/USER, resto ADMIN
+============================================================================
+
+7.1 GET /api/ventas
+    Descripción: Obtener todas las ventas
+    Headers: Authorization: Bearer {token}
+    Respuesta:
+    {
+        "success": true,
+        "message": "Datos obtenidos correctamente",
+        "data": [
+            {
+                "id": 1,
+                "fechaVenta": "2025-09-05T14:30:00",
+                "totalVenta": 90.00
+            }
+        ]
+    }
+
+7.2 GET /api/ventas/{id}
+    Descripción: Obtener venta por ID
+    Headers: Authorization: Bearer {token}
+    URL: /api/ventas/1
+
+7.3 POST /api/ventas/completa   (RECOMENDADO para registrar ventas - ADMIN/USER)
+    Descripción: Registra la venta y sus detalles en una transacción. Valida y descuenta
+                 stock (con bloqueo de filas), toma precio y costo de cada variante y calcula
+                 el total. Los campos "total" y "precio_unitario" se ignoran si se envían.
+    Headers: 
+        Authorization: Bearer {token}
+        Content-Type: application/json
+    Body (JSON):
+    {
+        "fecha_venta": "2025-09-05T14:30:00",      (opcional, por defecto ahora)
+        "detalles": [
+            { "variante_producto_id": 1, "cantidad": 2 },
+            { "variante_producto_id": 5, "cantidad": 1 }
+        ]
+    }
+    Respuesta 201: la venta creada con sus detalles (VentaDTO)
+    Errores: 400 variante inexistente o datos inválidos, 409 stock insuficiente
+
+7.3b POST /api/ventas   (ADMIN)
+    Descripción: Con "detalles" se comporta igual que /completa. Sin detalles crea solo la
+                 cabecera (flujo antiguo: las líneas se agregan con /api/detalle-venta y no
+                 descuentan stock).
+    Body (JSON): { "fechaVenta": "...", "totalVenta": 90.00, "detalles": [{ "varianteId": 1, "cantidad": 2 }] }
+
+7.4 PUT /api/ventas/{id}   (ADMIN)
+    Descripción: Solo cambia la fecha (el total y el stock dependen de los detalles)
+    Body (JSON): { "fechaVenta": "2025-09-05T14:30:00" }
+
+7.5 DELETE /api/ventas/{id}
+    Descripción: Eliminar venta y sus detalles (ADMIN ONLY). No repone stock.
+    Headers: Authorization: Bearer {token}
+    URL: /api/ventas/1
+
+7.6 GET /api/ventas/fecha?fechaInicio={inicio}&fechaFin={fin}
+    Descripción: Obtener ventas por rango de fechas
+    Headers: Authorization: Bearer {token}
+    URL: /api/ventas/fecha?fechaInicio=2025-09-01T00:00:00&fechaFin=2025-09-30T23:59:59
+
+7.7 GET /api/ventas/recent
+    Descripción: Obtener las 5 ventas más recientes
+    Headers: Authorization: Bearer {token}
+    Respuesta: Array de las últimas 5 ventas ordenadas por fecha
+
+============================================================================
+📋 8. DETALLE DE VENTAS (/api/detalle-venta) - lectura ADMIN/USER, escritura ADMIN
+============================================================================
+
+8.1 GET /api/detalle-venta
+    Descripción: Obtener todos los detalles de venta
+    Headers: Authorization: Bearer {token}
+    Respuesta:
+    {
+        "success": true,
+        "message": "Datos obtenidos correctamente",
+        "data": [
+            {
+                "ventaId": 1,
+                "varianteId": 1,
+                "cantidad": 2,
+                "precioUnitarioVenta": 45.00,
+                "costoUnitarioAdquisicion": 25.50
+            }
+        ]
+    }
+
+8.2 GET /api/detalle-venta/{ventaId}/{varianteId}
+    Descripción: Obtener detalle específico por venta y variante
+    Headers: Authorization: Bearer {token}
+    URL: /api/detalle-venta/1/1
+
+8.3 POST /api/detalle-venta
+    Descripción: Crear nuevo detalle de venta
+    Headers: 
+        Authorization: Bearer {token}
+        Content-Type: application/json
+    Body (JSON):
+    {
+        "ventaId": 1,
+        "varianteId": 1,
+        "cantidad": 2,
+        "precioUnitarioVenta": 45.00,
+        "costoUnitarioAdquisicion": 25.50
+    }
+
+8.4 PUT /api/detalle-venta/{ventaId}/{varianteId}
+    Descripción: Actualizar detalle de venta existente
+    Headers: 
+        Authorization: Bearer {token}
+        Content-Type: application/json
+    URL: /api/detalle-venta/1/1
+
+8.5 DELETE /api/detalle-venta/{ventaId}/{varianteId}
+    Descripción: Eliminar detalle de venta
+    Headers: Authorization: Bearer {token}
+    URL: /api/detalle-venta/1/1
+
+8.6 GET /api/detalle-venta/venta/{ventaId}
+    Descripción: Obtener todos los detalles de una venta específica
+    Headers: Authorization: Bearer {token}
+    URL: /api/detalle-venta/venta/1
+
+8.7 GET /api/detalle-venta/variante/{varianteId}
+    Descripción: Obtener historial de ventas de una variante específica
+    Headers: Authorization: Bearer {token}
+    URL: /api/detalle-venta/variante/1
+
+============================================================================
+👤 9. USUARIOS (/api/usuarios) - ADMIN ONLY
+============================================================================
+
+9.1 GET /api/usuarios
+    Descripción: Listar usuarios (nunca devuelve contraseñas)
+    Respuesta: "data": [ { "id": 1, "username": "admin", "role": "ADMIN" } ]
+
+9.2 GET /api/usuarios/{id}
+
+9.3 POST /api/usuarios
+    Body (JSON):
+    {
+        "username": "vendedor1",     (3-25 caracteres: letras, números, . _ -)
+        "password": "secreto123",    (obligatoria, mínimo 6)
+        "role": "USER"               (ADMIN o USER)
+    }
+    Errores: 409 si el usuario ya existe
+
+9.4 PUT /api/usuarios/{id}
+    Body (JSON): igual que POST; "password" vacía o ausente = no se cambia
+    Errores: 409 al quitarse el rol ADMIN a uno mismo o dejar el sistema sin ADMIN
+
+9.5 DELETE /api/usuarios/{id}
+    Errores: 409 al eliminar el propio usuario o el último ADMIN
+
+============================================================================
+📊 10. DASHBOARD (/api/dashboard) - ADMIN ONLY
+============================================================================
+
+10.1 GET /api/dashboard?umbralStock=5
+    Descripción: Resumen para el panel (número fijo de consultas)
+    Respuesta "data":
+    {
+        "hoy":       { "cantidad": 3, "monto": 210.0 },
+        "mes":       { "cantidad": 40, "monto": 3150.5 },
+        "historico": { "cantidad": 120, "monto": 9800.0 },
+        "gananciaMes": 1200.0,
+        "gananciaHistorica": 4100.0,          (precio - costo) x cantidad
+        "umbralStockBajo": 5,
+        "stockBajo": [ VarianteProductoDTO... ],
+        "masVendidas": [ { "varianteId": 2, "sku": "...", "productoNombre": "...", "unidades": 15 } ],
+        "ventasRecientes": [ VentaDTO... ]
+    }
+
+============================================================================
+🌐 11. CATÁLOGO PÚBLICO (/api/public) - SIN LOGIN, solo GET
+============================================================================
+Lo consume la web pública (dogo-web). No expone costo, stock exacto ni proveedor.
+Respuesta cacheable 60 s (Cache-Control: public, max-age=60).
+
+11.1 GET /api/public/catalogo
+    Respuesta "data": productos ordenados por más vendidos
+    [
+        {
+            "id": 1, "nombre": "Polo Básico Manga Corta",
+            "categoriaId": 1, "categoria": "Polos Manga Corta",
+            "precioDesde": 35.0, "disponible": true,
+            "tallas": ["S", "M", "L"], "colores": ["Azul", "Rojo"],
+            "vendidos": 15,
+            "variantes": [ { "id": 2, "sku": "POLO-BAS-AZ-M-C", "talla": "M", "color": "Azul",
+                             "tipoManga": "Corta", "precio": 35.0, "disponible": true, "ultimasUnidades": false } ],
+            "imagenes": [ { "url": "/img/polos/polo_basico_azul_m_principal.jpg", "tipo": "principal",
+                            "alt": "...", "varianteId": 2 } ]
+        }
+    ]
+    Nota: "url" es relativa al hosting de la web pública (las imágenes viven allí).
+
+11.2 GET /api/public/categorias
+    Respuesta "data": [ { "id": 1, "nombre": "Polos Manga Corta", "productos": 1, "imagen": "/img/polos/..." } ]
+    Solo categorías con al menos un producto.
+
+============================================================================
+🔐 NOTAS DE AUTENTICACIÓN Y AUTORIZACIÓN
+============================================================================
+
+ROLES Y PERMISOS:
+- ADMIN: Acceso completo a todos los endpoints (CRUD), usuarios y dashboard
+- USER (vendedor): lectura de productos/variantes/imágenes/ventas y registro de ventas
+  con POST /api/ventas/completa. No puede crear, editar ni borrar catálogo ni ventas.
+
+HEADERS REQUERIDOS:
+- Authorization: Bearer {token} (para endpoints protegidos)
+- Content-Type: application/json (para POST/PUT)
+- Content-Type: multipart/form-data (para upload de archivos)
+
+CÓDIGOS DE RESPUESTA:
+- 200: Éxito
+- 201: Creado exitosamente
+- 400: Error de validación o solicitud incorrecta
+- 401: No autorizado (token inválido o faltante)
+- 403: Prohibido (sin permisos suficientes)
+- 404: Recurso no encontrado
+- 409: Conflicto (stock insuficiente, registro duplicado o con registros relacionados)
+- 500: Error interno del servidor
+
+FORMATO DE RESPUESTA ESTÁNDAR:
+{
+    "success": boolean,
+    "message": "string",
+    "data": object|array|null
+}
+
+VALIDACIONES COMUNES:
+- Campos obligatorios marcados con * en documentación
+- Categorías y proveedores: nombre de 2 a 30 caracteres
+- Productos: nombre de 2 a 100 caracteres
+- Teléfonos: de 7 a 10 caracteres (números, espacios, +, -, paréntesis)
+- IDs: Números positivos
+
+============================================================================
+📋 EJEMPLOS DE USO EN POSTMAN
+============================================================================
+
+COLECCIÓN RECOMENDADA:
+1. Crear carpeta "DoGo Store API v1"
+2. Subcarpetas por módulo (Auth, Categorías, etc.)
+3. Variables de entorno:
+   - baseUrl: http://localhost:8080
+   - token: (se actualiza automáticamente en login)
+
+SCRIPT PRE-REQUEST (para endpoints protegidos):
+pm.request.headers.add({
+    key: 'Authorization',
+    value: 'Bearer ' + pm.environment.get('token')
+});
+
+SCRIPT POST-RESPONSE (para login):
+if (pm.response.code === 200) {
+    const response = pm.response.json();
+    if (response.success && response.data.token) {
+        pm.environment.set('token', response.data.token);
+    }
+}
+
+============================================================================
+FIN DE LA DOCUMENTACIÓN API v1.0
+Última actualización: Octubre 2026
+============================================================================

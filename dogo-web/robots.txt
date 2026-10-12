@@ -1,0 +1,5 @@
+# TODO: cambia el dominio por el real al publicar
+User-agent: *
+Allow: /
+
+Sitemap: https://www.doandgo.pe/sitemap.xml

@@ -1,0 +1,5 @@
+# Cabeceras de Netlify (https://docs.netlify.com/routing/headers/)
+# Las imágenes casi nunca cambian: el navegador las guarda 30 días.
+# Si reemplazas una foto, súbela con otro nombre para que se vea al instante.
+/img/*
+  Cache-Control: public, max-age=2592000

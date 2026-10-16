@@ -128,7 +128,7 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.2; }
 /* ---------- Slider ---------- */
 .slider { position: relative; overflow: hidden; background: var(--ink); color: var(--white); }
 .slider-track { position: relative; height: clamp(440px, 78vh, 640px); }
-.slide { position: absolute; inset: 0; opacity: 0; visibility: hidden; transition: opacity 0.8s ease, visibility 0.8s; }
+.slide { position: absolute; inset: 0; opacity: 0; visibility: hidden; transition: opacity 0.55s ease, visibility 0.55s; }
 .slide.is-active { opacity: 1; visibility: visible; }
 .slide picture, .slide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .slide::after {

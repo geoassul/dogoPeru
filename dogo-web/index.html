@@ -21,11 +21,10 @@
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap"></noscript>
     <!-- La primera imagen del slider es lo primero que se ve: se pide con prioridad -->
-    <link rel="preload" as="image" fetchpriority="high"
-          imagesrcset="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&q=70&w=800 800w,
-                       https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&q=70&w=1280 1280w,
-                       https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&q=70&w=1920 1920w"
-          imagesizes="100vw">
+    <link rel="preload" as="image" fetchpriority="high" media="(max-width: 719px)"
+          imagesrcset="img/inicio/slide-1-movil-480.webp 480w, img/inicio/slide-1-movil-720.webp 720w" imagesizes="100vw">
+    <link rel="preload" as="image" fetchpriority="high" media="(min-width: 720px)"
+          imagesrcset="img/inicio/slide-1-800.webp 800w, img/inicio/slide-1-1280.webp 1280w, img/inicio/slide-1-1920.webp 1920w" imagesizes="100vw">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -61,11 +60,12 @@
         <section class="slider" aria-roledescription="carrusel" aria-label="Novedades de Do and Go" tabindex="-1">
             <div class="slider-track">
                 <article class="slide is-active" aria-roledescription="diapositiva" aria-label="1 de 3">
-                    <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&q=70&w=1280"
-                         srcset="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&q=70&w=800 800w,
-                                 https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&q=70&w=1280 1280w,
-                                 https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&q=70&w=1920 1920w"
-                         sizes="100vw" width="1920" height="1080" alt="" fetchpriority="high" decoding="async">
+                    <picture>
+                        <source media="(max-width: 719px)" srcset="img/inicio/slide-1-movil-480.webp 480w, img/inicio/slide-1-movil-720.webp 720w" sizes="100vw" width="720" height="1080">
+                        <img src="img/inicio/slide-1-1280.webp"
+                             srcset="img/inicio/slide-1-800.webp 800w, img/inicio/slide-1-1280.webp 1280w, img/inicio/slide-1-1920.webp 1920w"
+                             sizes="100vw" width="1920" height="1080" alt="" fetchpriority="high" decoding="async">
+                    </picture>
                     <div class="container slide-content">
                         <span class="slide-kicker">Nueva colección</span>
                         <h1>Viste con estilo todos los días</h1>
@@ -77,11 +77,12 @@
                     </div>
                 </article>
                 <article class="slide" aria-roledescription="diapositiva" aria-label="2 de 3">
-                    <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&q=70&w=1280"
-                         srcset="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&q=70&w=800 800w,
-                                 https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&q=70&w=1280 1280w,
-                                 https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&q=70&w=1920 1920w"
-                         sizes="100vw" width="1920" height="1080" alt="" loading="lazy" decoding="async">
+                    <picture>
+                        <source media="(max-width: 719px)" srcset="img/inicio/slide-2-movil-480.webp 480w, img/inicio/slide-2-movil-720.webp 720w" sizes="100vw" width="720" height="1080">
+                        <img src="img/inicio/slide-2-1280.webp"
+                             srcset="img/inicio/slide-2-800.webp 800w, img/inicio/slide-2-1280.webp 1280w, img/inicio/slide-2-1920.webp 1920w"
+                             sizes="100vw" width="1920" height="1080" alt="" loading="lazy" decoding="async">
+                    </picture>
                     <div class="container slide-content">
                         <span class="slide-kicker">Precios de barrio</span>
                         <h2>Calidad de tienda, precio de mercado</h2>
@@ -92,11 +93,12 @@
                     </div>
                 </article>
                 <article class="slide" aria-roledescription="diapositiva" aria-label="3 de 3">
-                    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=70&w=1280"
-                         srcset="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=70&w=800 800w,
-                                 https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=70&w=1280 1280w,
-                                 https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=70&w=1920 1920w"
-                         sizes="100vw" width="1920" height="1080" alt="" loading="lazy" decoding="async">
+                    <picture>
+                        <source media="(max-width: 719px)" srcset="img/inicio/slide-3-movil-480.webp 480w, img/inicio/slide-3-movil-720.webp 720w" sizes="100vw" width="720" height="1080">
+                        <img src="img/inicio/slide-3-1280.webp"
+                             srcset="img/inicio/slide-3-800.webp 800w, img/inicio/slide-3-1280.webp 1280w, img/inicio/slide-3-1920.webp 1920w"
+                             sizes="100vw" width="1920" height="1080" alt="" loading="lazy" decoding="async">
+                    </picture>
                     <div class="container slide-content">
                         <span class="slide-kicker">Visítanos</span>
                         <h2>Te esperamos en el Mercado Carapongo</h2>
@@ -174,8 +176,8 @@
         <section class="section" aria-labelledby="why-title">
             <div class="container split">
                 <div class="split-media">
-                    <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&q=70&w=900&h=675"
-                         width="900" height="675" alt="Percheros con prendas de temporada" loading="lazy" decoding="async">
+                    <img src="img/inicio/historia-900.webp" srcset="img/inicio/historia-600.webp 600w, img/inicio/historia-900.webp 900w"
+                         sizes="(min-width: 720px) 50vw, 100vw" width="900" height="675" alt="Percheros con prendas de temporada" loading="lazy" decoding="async">
                 </div>
                 <div>
                     <span class="eyebrow">Nuestra historia</span>

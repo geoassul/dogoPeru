@@ -22,7 +22,7 @@ window.DoGo = window.DoGo || {};
                 type: 'button', className: 'product-media', onclick: () => onOpen(p),
                 'aria-label': `Ver detalle de ${p.nombre}`,
             },
-            productImage(principal?.url, p.categoria, principal?.alt || p.nombre, { width: 480, height: 600 }),
+            productImage(principal?.url, p.categoria, principal?.alt || p.nombre, { width: 500, height: 500 }),
             h('span', { className: `badge ${e.clase}` }, e.texto)),
             h('div', { className: 'product-body' },
                 h('p', { className: 'product-cat' }, p.categoria || ''),
@@ -143,12 +143,12 @@ window.DoGo = window.DoGo || {};
             const delColor = p.imagenes.filter((img) => idsColor.has(img.varianteId));
             const imagenes = delColor.length ? delColor : p.imagenes;
             const show = (img) => mainImage.replaceChildren(
-                productImage(img?.url, p.categoria, img?.alt || p.nombre, { width: 800, height: 1000, eager: true }));
+                productImage(img?.url, p.categoria, img?.alt || p.nombre, { width: 900, height: 900, eager: true }));
             show(imagenes[0]);
             thumbs.replaceChildren(...(imagenes.length > 1 ? imagenes : []).map((img, i) => h('button', {
                 type: 'button', className: 'thumb', 'aria-label': `Ver imagen ${i + 1}`,
                 onclick: () => show(img),
-            }, productImage(img.url, p.categoria, '', { width: 120, height: 150 }))));
+            }, productImage(img.url, p.categoria, '', { width: 120, height: 120 }))));
         }
 
         render();

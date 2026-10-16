@@ -16,12 +16,17 @@ Mientras un archivo no exista, la web muestra una imagen provisional según la c
 | `img/zapatillas/` | `zapatilla_blanca_42_principal.jpg`, `zapatilla_blanca_42_lateral.jpg`, `zapatilla_blanca_42_suela.jpg` |
 | `img/chaquetas/` | `chaqueta_gris_l_principal.jpg` |
 
+## Fotos reales de la tienda
+
+`img/hombre/` (49) e `img/mujer/` (15): fotos en WebP de 1000 × 1000 px, entre 20 y 130 KB cada una.
+La ruta que se registra en la base de datos es la del archivo, por ejemplo `/img/hombre/polo-celeste-varon.webp`.
+
 Para productos nuevos: sube la foto aquí y registra su ruta en el panel de administración
 (**Variantes y stock → Imágenes**) o con `POST /api/imagenes-variante`.
 
 ## Recomendaciones para que la web cargue rápido
 
-- **Proporción 4:5** (vertical), por ejemplo **1200 × 1500 px**. Las tarjetas recortan a ese formato.
+- **Proporción cuadrada (1:1)**, por ejemplo **1000 × 1000 px**. Las tarjetas recortan a ese formato.
 - **Peso menor a 200 KB** por foto. Formato **WebP** o JPG con calidad 75–80.
   Herramientas gratis: [Squoosh](https://squoosh.app) o [TinyPNG](https://tinypng.com).
 - Fondo claro y uniforme, la prenda centrada, sin marcas de agua.

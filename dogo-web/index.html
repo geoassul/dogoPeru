@@ -17,7 +17,9 @@
     <link rel="preconnect" href="https://images.unsplash.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap">
+    <!-- Fuentes sin bloquear el renderizado: mientras cargan se usa la fuente del sistema -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap"></noscript>
     <!-- La primera imagen del slider es lo primero que se ve: se pide con prioridad -->
     <link rel="preload" as="image" fetchpriority="high"
           imagesrcset="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&q=70&w=800 800w,

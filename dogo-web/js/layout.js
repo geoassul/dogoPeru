@@ -41,9 +41,13 @@ window.DoGo = window.DoGo || {};
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
         nav.addEventListener('click', (e) => { if (e.target.closest('a')) setOpen(false); });
 
-        const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 10);
-        window.addEventListener('scroll', onScroll, { passive: true });
-        onScroll();
+        // Sombra del header al bajar más de 10 px. Un IntersectionObserver sobre un marcador de 10 px al inicio
+        // de la página evita leer window.scrollY, que fuerza al navegador a recalcular el diseño al cargar.
+        const marcador = h('div', { 'aria-hidden': 'true' });
+        marcador.style.cssText = 'position:absolute;top:0;left:0;width:1px;height:10px;pointer-events:none;';
+        document.body.prepend(marcador);
+        new IntersectionObserver(([entry]) => header.classList.toggle('scrolled', !entry.isIntersecting))
+            .observe(marcador);
     }
 
     // ---------- Datos de la tienda ----------

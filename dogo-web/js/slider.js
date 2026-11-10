@@ -18,6 +18,7 @@ window.DoGo = window.DoGo || {};
         let current = 0;
         let timer = null;
         let paused = false;
+        let started = false; // el autoplay espera a la primera interacción o a la carga completa
 
         const dots = h('div', { className: 'slider-dots', role: 'group', 'aria-label': 'Elegir diapositiva' },
             slides.map((_, i) => h('button', {
@@ -57,7 +58,7 @@ window.DoGo = window.DoGo || {};
         function restart() {
             clearInterval(timer);
             timer = null;
-            if (!paused && !reduceMotion && !document.hidden) {
+            if (started && !paused && !reduceMotion && !document.hidden) {
                 timer = setInterval(() => go(current + 1), INTERVALO_MS);
             }
         }
@@ -88,7 +89,20 @@ window.DoGo = window.DoGo || {};
         });
 
         go(0);
-        setPaused(false);
+        // El autoplay arranca con la primera interacción o 8 s después de la carga completa:
+        // así la portada no cambia mientras la página todavía se está pintando (Speed Index estable).
+        pauseBtn.textContent = '❚❚';
+        pauseBtn.setAttribute('aria-label', 'Pausar presentación');
+        const eventos = ['pointerdown', 'keydown', 'scroll', 'touchstart'];
+        const start = () => {
+            if (started) return;
+            started = true;
+            eventos.forEach((ev) => window.removeEventListener(ev, start));
+            if (!paused) restart();
+        };
+        eventos.forEach((ev) => window.addEventListener(ev, start, { once: true, passive: true }));
+        const tras = () => setTimeout(start, 8000);
+        if (document.readyState === 'complete') tras(); else window.addEventListener('load', tras, { once: true });
     }
 
     DoGo.slider = { initSlider };

@@ -14,7 +14,6 @@
     <meta property="og:image" content="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1200&h=630&q=70">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23e4572e'/%3E%3Ctext x='32' y='41' font-family='Arial' font-weight='700' font-size='22' fill='white' text-anchor='middle'%3ED%26amp;G%3C/text%3E%3C/svg%3E">
 
-    <link rel="preconnect" href="https://images.unsplash.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Fuentes sin bloquear el renderizado: mientras cargan se usa la fuente del sistema -->
@@ -38,7 +37,7 @@
             </div>
         </div>
         <div class="container header-inner">
-            <a href="index.html" class="logo" aria-label="Do and Go - Inicio">
+            <a href="index.html" class="logo">
                 <span class="logo-mark" aria-hidden="true">D&amp;G</span>
                 <span class="logo-text">Do and Go</span>
             </a>
@@ -117,19 +116,19 @@
             <div class="benefits">
                 <div class="benefit">
                     <span class="benefit-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg></span>
-                    <div><h3>Atención personalizada</h3><p>Te ayudamos a encontrar tu talla y tu estilo.</p></div>
+                    <div><h2>Atención personalizada</h2><p>Te ayudamos a encontrar tu talla y tu estilo.</p></div>
                 </div>
                 <div class="benefit">
                     <span class="benefit-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
-                    <div><h3>Paga como prefieras</h3><p>Efectivo, Yape, Plin y tarjetas.</p></div>
+                    <div><h2>Paga como prefieras</h2><p>Efectivo, Yape, Plin y tarjetas.</p></div>
                 </div>
                 <div class="benefit">
                     <span class="benefit-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.5 9a9 9 0 0 1 14.8-3.4L23 10M1 14l4.6 4.4A9 9 0 0 0 20.5 15"/></svg></span>
-                    <div><h3>Cambios de talla</h3><p>¿No te quedó? Lo cambiamos con tu comprobante.</p></div>
+                    <div><h2>Cambios de talla</h2><p>¿No te quedó? Lo cambiamos con tu comprobante.</p></div>
                 </div>
                 <div class="benefit">
                     <span class="benefit-icon"><svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg></span>
-                    <div><h3>Pedidos por WhatsApp</h3><p>Separa tu prenda y recógela en tienda.</p></div>
+                    <div><h2>Pedidos por WhatsApp</h2><p>Separa tu prenda y recógela en tienda.</p></div>
                 </div>
             </div>
         </section>
@@ -214,7 +213,7 @@
                         <a class="btn btn-whatsapp" data-cfg="whatsapp" data-msg="Hola Do and Go, quisiera saber si tienen..." href="https://wa.me/51948327135" target="_blank" rel="noopener">WhatsApp</a>
                     </div>
                 </div>
-                <div class="map-box"><iframe class="map-frame" data-cfg="mapa-iframe" src="https://www.google.com/maps/embed?origin=mfe&amp;pb=!1m3!2m1!1s-12.002135,-76.8639779!6i17!3m1!1ses!5m1!1ses" title="Ubicación de Do and Go en Google Maps" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+                <div class="map-box map-lazy" data-cfg="mapa-diferido"><p>El mapa de Google Maps se carga solo si lo pides.</p><button type="button" class="btn btn-primary btn-sm" data-map-load>Mostrar mapa</button></div>
             </div>
         </section>
 
@@ -236,7 +235,7 @@
     <footer class="site-footer">
         <div class="container footer-grid">
             <div class="footer-col footer-brand">
-                <a href="index.html" class="logo" aria-label="Do and Go - Inicio">
+                <a href="index.html" class="logo">
                     <span class="logo-mark" aria-hidden="true">D&amp;G</span>
                     <span class="logo-text">Do and Go</span>
                 </a>

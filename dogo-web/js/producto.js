@@ -20,7 +20,7 @@ window.DoGo = window.DoGo || {};
         return h('article', { className: 'product-card' },
             h('button', {
                 type: 'button', className: 'product-media', onclick: () => onOpen(p),
-                'aria-label': `Ver detalle de ${p.nombre}`,
+                'aria-label': `Ver detalle de ${p.nombre}: ${e.texto}`,
             },
             productImage(principal?.url, p.categoria, principal?.alt || p.nombre, { width: 500, height: 500 }),
             h('span', { className: `badge ${e.clase}` }, e.texto)),
@@ -34,7 +34,7 @@ window.DoGo = window.DoGo || {};
                     h('button', { type: 'button', className: 'btn btn-outline btn-sm', onclick: () => onOpen(p) }, 'Ver detalle'),
                     h('a', {
                         className: 'btn btn-whatsapp btn-sm', href: whatsappUrl(mensajeProducto(p)), target: '_blank', rel: 'noopener',
-                        'aria-label': `Consultar ${p.nombre} por WhatsApp`,
+                        'aria-label': `Pedir ${p.nombre} por WhatsApp`,
                     }, svg(ICONS.whatsapp), 'Pedir'))));
     }
 

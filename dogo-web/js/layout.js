@@ -87,6 +87,16 @@ window.DoGo = window.DoGo || {};
             'pagos-texto': (el) => { el.textContent = T.mediosPago.join(', '); },
             mapa: (el) => el.replaceChildren(mapa()),
             'mapa-iframe': (el) => { if (el.src !== mapaEmbedUrl()) el.src = mapaEmbedUrl(); },
+            // El iframe de Google Maps pesa y bloquea el hilo principal: se inserta solo cuando el usuario lo pide
+            'mapa-diferido': (el) => {
+                const btn = el.querySelector('[data-map-load]');
+                if (!btn) return;
+                btn.addEventListener('click', () => {
+                    el.classList.remove('map-lazy');
+                    el.replaceChildren(mapa());
+                    el.firstChild.focus();
+                }, { once: true });
+            },
             anios: (el) => { el.textContent = String(new Date().getFullYear() - T.anioFundacion); },
             fundacion: (el) => { el.textContent = String(T.anioFundacion); },
             'anio-actual': (el) => { el.textContent = String(new Date().getFullYear()); },

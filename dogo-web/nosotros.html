@@ -11,7 +11,8 @@
     <meta property="og:title" content="Nosotros | Do and Go">
     <meta property="og:description" content="Una tienda de barrio que viste a Carapongo con calidad y cercanía.">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23e4572e'/%3E%3Ctext x='32' y='41' font-family='Arial' font-weight='700' font-size='22' fill='white' text-anchor='middle'%3ED%26amp;G%3C/text%3E%3C/svg%3E">
-    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="preload" as="image" href="img/inicio/hero-nosotros-800.webp" media="(max-width: 899px)" fetchpriority="high">
+    <link rel="preload" as="image" href="img/inicio/hero-nosotros-1280.webp" media="(min-width: 900px)" fetchpriority="high">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Fuentes sin bloquear el renderizado: mientras cargan se usa la fuente del sistema -->
@@ -30,7 +31,7 @@
             </div>
         </div>
         <div class="container header-inner">
-            <a href="index.html" class="logo" aria-label="Do and Go - Inicio">
+            <a href="index.html" class="logo">
                 <span class="logo-mark" aria-hidden="true">D&amp;G</span>
                 <span class="logo-text">Do and Go</span>
             </a>
@@ -53,7 +54,7 @@
         El año de fundación se cambia en js/config.js (anioFundacion).
     -->
     <main id="contenido">
-        <section class="page-hero" style="--hero-img: url('https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&q=60&w=1600')">
+        <section class="page-hero" style="--hero-img: url('/img/inicio/hero-nosotros-800.webp'); --hero-img-lg: url('/img/inicio/hero-nosotros-1280.webp')">
             <div class="container">
                 <p class="breadcrumb"><a href="index.html">Inicio</a> / Nosotros</p>
                 <h1>Somos Do and Go</h1>
@@ -65,7 +66,7 @@
         <section class="section" aria-labelledby="historia-title">
             <div class="container split">
                 <div class="split-media">
-                    <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&q=70&w=900&h=675"
+                    <img src="img/inicio/nosotros-historia-900.webp" srcset="img/inicio/nosotros-historia-600.webp 600w, img/inicio/nosotros-historia-900.webp 900w" sizes="(min-width: 900px) 50vw, 100vw"
                          width="900" height="675" alt="Prendas colgadas en la tienda" loading="lazy" decoding="async">
                 </div>
                 <div>
@@ -159,7 +160,7 @@
                         <a class="btn btn-light" href="contacto.html">Contáctanos</a>
                     </div>
                 </div>
-                <div class="map-box"><iframe class="map-frame" data-cfg="mapa-iframe" src="https://www.google.com/maps/embed?origin=mfe&amp;pb=!1m3!2m1!1s-12.002135,-76.8639779!6i17!3m1!1ses!5m1!1ses" title="Ubicación de Do and Go en Google Maps" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+                <div class="map-box map-lazy" data-cfg="mapa-diferido"><p>El mapa de Google Maps se carga solo si lo pides.</p><button type="button" class="btn btn-primary btn-sm" data-map-load>Mostrar mapa</button></div>
             </div>
         </section>
     </main>
@@ -168,7 +169,7 @@
     <footer class="site-footer">
         <div class="container footer-grid">
             <div class="footer-col footer-brand">
-                <a href="index.html" class="logo" aria-label="Do and Go - Inicio">
+                <a href="index.html" class="logo">
                     <span class="logo-mark" aria-hidden="true">D&amp;G</span>
                     <span class="logo-text">Do and Go</span>
                 </a>

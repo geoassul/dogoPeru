@@ -43,8 +43,8 @@ window.DoGo = window.DoGo || {};
             // Vacío = mapa con marcador en las coordenadas.
             googleMapsEmbedUrl: '', // TODO
 
-            telefono: '+51 999 999 999',      // TODO
-            whatsapp: '51999999999',          // TODO: código de país + número, solo dígitos
+            telefono: '+51 948 327 135',
+            whatsapp: '51948327135',          // código de país + número, solo dígitos
             email: 'contacto@doandgo.pe',     // TODO
 
             horario: [                        // TODO

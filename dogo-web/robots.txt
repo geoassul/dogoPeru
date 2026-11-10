@@ -1,5 +1,4 @@
-# TODO: cambia el dominio por el real al publicar
 User-agent: *
 Allow: /
 
-Sitemap: https://www.doandgo.pe/sitemap.xml
+Sitemap: https://dogoperu.netlify.app/sitemap.xml

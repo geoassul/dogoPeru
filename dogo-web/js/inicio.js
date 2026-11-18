@@ -6,6 +6,7 @@
     const { productCard } = DoGo.producto;
     const { initSlider } = DoGo.slider;
     const { h, productImage, whatsappUrl } = DoGo.ui;
+    const { animar } = DoGo; // js/animaciones.js: aparecen al hacer scroll
 
     // Las grillas del inicio van en filas completas de 3 (ver .product-grid / .category-grid en styles.css)
     const COLUMNAS = 3;
@@ -23,13 +24,13 @@
         try {
             // Si sobran, se quedan fuera las que tienen menos productos (siguen en "Ver todo el catálogo")
             const categorias = filasCompletas([...await getCategorias()].sort((a, b) => b.productos - a.productos));
-            box.replaceChildren(...categorias.map((c) => h('a', {
+            box.replaceChildren(...categorias.map((c, i) => animar(h('a', {
                 className: 'category-card', href: `productos.html?categoria=${encodeURIComponent(c.id)}`,
             },
             productImage(c.imagen, c.nombre, '', { width: 500, height: 500 }),
             h('span', { className: 'category-info' },
                 h('span', { className: 'category-name' }, c.nombre),
-                h('span', { className: 'category-count' }, `${c.productos} ${c.productos === 1 ? 'producto' : 'productos'}`)))));
+                h('span', { className: 'category-count' }, `${c.productos} ${c.productos === 1 ? 'producto' : 'productos'}`))), i)));
         } catch (error) {
             box.replaceChildren(errorBox(error));
         }
@@ -40,7 +41,7 @@
         try {
             const productos = filasCompletas((await getCatalogo()).slice(0, DESTACADOS));
             box.replaceChildren(...(productos.length
-                ? productos.map((p) => productCard(p, irAProducto))
+                ? productos.map((p, i) => animar(productCard(p, irAProducto), i))
                 : [h('p', { className: 'empty-state' }, 'Pronto publicaremos nuestros productos.')]));
         } catch (error) {
             box.replaceChildren(errorBox(error));

@@ -24,6 +24,7 @@
           imagesrcset="img/inicio/slide-1-movil-480.webp 480w, img/inicio/slide-1-movil-720.webp 720w" imagesizes="100vw">
     <link rel="preload" as="image" fetchpriority="high" media="(min-width: 720px)"
           imagesrcset="img/inicio/slide-1-800.webp 800w, img/inicio/slide-1-1280.webp 1280w, img/inicio/slide-1-1920.webp 1920w" imagesizes="100vw">
+    <link rel="stylesheet" href="css/vendor/animate.min.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -114,19 +115,19 @@
         <!-- ===================== BENEFICIOS ===================== -->
         <section class="container" aria-label="Beneficios">
             <div class="benefits">
-                <div class="benefit">
+                <div class="benefit wow animate__fadeInUp" data-wow-delay="0.0s">
                     <span class="benefit-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg></span>
                     <div><h2>Atención personalizada</h2><p>Te ayudamos a encontrar tu talla y tu estilo.</p></div>
                 </div>
-                <div class="benefit">
+                <div class="benefit wow animate__fadeInUp" data-wow-delay="0.1s">
                     <span class="benefit-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
                     <div><h2>Paga como prefieras</h2><p>Efectivo, Yape, Plin y tarjetas.</p></div>
                 </div>
-                <div class="benefit">
+                <div class="benefit wow animate__fadeInUp" data-wow-delay="0.2s">
                     <span class="benefit-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.5 9a9 9 0 0 1 14.8-3.4L23 10M1 14l4.6 4.4A9 9 0 0 0 20.5 15"/></svg></span>
                     <div><h2>Cambios de talla</h2><p>¿No te quedó? Lo cambiamos con tu comprobante.</p></div>
                 </div>
-                <div class="benefit">
+                <div class="benefit wow animate__fadeInUp" data-wow-delay="0.3s">
                     <span class="benefit-icon"><svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg></span>
                     <div><h2>Pedidos por WhatsApp</h2><p>Separa tu prenda y recógela en tienda.</p></div>
                 </div>
@@ -136,7 +137,7 @@
         <!-- ===================== CATEGORÍAS ===================== -->
         <section class="section" aria-labelledby="cat-title">
             <div class="container">
-                <div class="section-head">
+                <div class="section-head wow animate__fadeInUp">
                     <div>
                         <span class="eyebrow">Compra por categoría</span>
                         <h2 id="cat-title">¿Qué estás buscando hoy?</h2>
@@ -155,7 +156,7 @@
         <!-- ===================== DESTACADOS ===================== -->
         <section class="section section-alt" aria-labelledby="dest-title">
             <div class="container">
-                <div class="section-head">
+                <div class="section-head wow animate__fadeInUp">
                     <div>
                         <span class="eyebrow">Los más pedidos</span>
                         <h2 id="dest-title">Productos destacados</h2>
@@ -174,11 +175,11 @@
         <!-- ===================== POR QUÉ ELEGIRNOS ===================== -->
         <section class="section" aria-labelledby="why-title">
             <div class="container split">
-                <div class="split-media">
+                <div class="split-media wow animate__fadeInLeft">
                     <img src="img/inicio/historia-900.webp" srcset="img/inicio/historia-600.webp 600w, img/inicio/historia-900.webp 900w"
                          sizes="(min-width: 720px) 50vw, 100vw" width="900" height="675" alt="Percheros con prendas de temporada" loading="lazy" decoding="async">
                 </div>
-                <div>
+                <div class="wow animate__fadeInRight">
                     <span class="eyebrow">Nuestra historia</span>
                     <h2 id="why-title">Más de <span data-cfg="anios">8</span> años vistiendo a Carapongo</h2>
                     <p>Do and Go nació como un pequeño puesto en el Mercado Carapongo con una idea simple: ropa
@@ -197,7 +198,7 @@
         <!-- ===================== VISÍTANOS ===================== -->
         <section class="section section-alt" aria-labelledby="visit-title">
             <div class="container visit">
-                <div class="visit-card">
+                <div class="visit-card wow animate__fadeInUp">
                     <span class="eyebrow">Tienda física</span>
                     <h2 id="visit-title">Visítanos</h2>
                     <ul class="info-list">
@@ -213,14 +214,14 @@
                         <a class="btn btn-whatsapp" data-cfg="whatsapp" data-msg="Hola Do and Go, quisiera saber si tienen..." href="https://wa.me/51948327135" target="_blank" rel="noopener">WhatsApp</a>
                     </div>
                 </div>
-                <div class="map-box map-lazy" data-cfg="mapa-diferido"><p>El mapa de Google Maps se carga solo si lo pides.</p><button type="button" class="btn btn-primary btn-sm" data-map-load>Mostrar mapa</button></div>
+                <div class="map-box map-lazy wow animate__fadeInUp" data-wow-delay="0.15s" data-cfg="mapa-diferido"><p>El mapa de Google Maps se carga solo si lo pides.</p><button type="button" class="btn btn-primary btn-sm" data-map-load>Mostrar mapa</button></div>
             </div>
         </section>
 
         <!-- ===================== CTA ===================== -->
         <section class="section" aria-label="Pedidos por WhatsApp">
             <div class="container">
-                <div class="cta">
+                <div class="cta wow animate__zoomIn">
                     <div>
                         <h2>¿Viste algo que te gustó?</h2>
                         <p>Escríbenos por WhatsApp, te confirmamos tallas y colores disponibles y te separamos la prenda.</p>
@@ -294,6 +295,8 @@
     <script src="js/ui.js" defer></script>
     <script src="js/api.js" defer></script>
     <script src="js/layout.js" defer></script>
+    <script src="js/vendor/wow.min.js" defer></script>
+    <script src="js/animaciones.js" defer></script>
     <script src="js/producto.js" defer></script>
     <script src="js/slider.js" defer></script>
     <script src="js/inicio.js" defer></script>

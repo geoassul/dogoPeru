@@ -18,6 +18,7 @@
     <!-- Fuentes sin bloquear el renderizado: mientras cargan se usa la fuente del sistema -->
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap"></noscript>
+    <link rel="stylesheet" href="css/vendor/animate.min.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -65,11 +66,11 @@
         <!-- Historia -->
         <section class="section" aria-labelledby="historia-title">
             <div class="container split">
-                <div class="split-media">
+                <div class="split-media wow animate__fadeInLeft">
                     <img src="img/inicio/nosotros-historia-900.webp" srcset="img/inicio/nosotros-historia-600.webp 600w, img/inicio/nosotros-historia-900.webp 900w" sizes="(min-width: 900px) 50vw, 100vw"
                          width="900" height="675" alt="Prendas colgadas en la tienda" loading="lazy" decoding="async">
                 </div>
-                <div>
+                <div class="wow animate__fadeInRight">
                     <span class="eyebrow">Nuestra historia</span>
                     <h2 id="historia-title">De un pequeño puesto a la tienda de confianza del barrio</h2>
                     <p>Do and Go abrió sus puertas en <span data-cfg="fundacion">2016</span> en el Mercado Carapongo, en
@@ -87,26 +88,26 @@
         <!-- Misión, visión, valores -->
         <section class="section section-alt" aria-labelledby="mvv-title">
             <div class="container">
-                <div class="section-head">
+                <div class="section-head wow animate__fadeInUp">
                     <div>
                         <span class="eyebrow">Lo que nos mueve</span>
                         <h2 id="mvv-title">Misión, visión y valores</h2>
                     </div>
                 </div>
                 <div class="cards-3">
-                    <article class="card">
+                    <article class="card wow animate__fadeInUp" data-wow-delay="0.0s">
                         <span class="card-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
                         <h3>Misión</h3>
                         <p>Ofrecer a las familias de Carapongo y alrededores ropa cómoda, de buena calidad y a precios justos,
                             con una atención cercana que les ayude a encontrar la prenda ideal en tienda o por WhatsApp.</p>
                     </article>
-                    <article class="card">
+                    <article class="card wow animate__fadeInUp" data-wow-delay="0.1s">
                         <span class="card-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
                         <h3>Visión</h3>
                         <p>Ser la tienda de ropa de referencia en Lurigancho-Chosica, reconocida por la confianza de sus
                             clientes, la variedad de su catálogo y una experiencia de compra simple tanto en el mercado como en línea.</p>
                     </article>
-                    <article class="card">
+                    <article class="card wow animate__fadeInUp" data-wow-delay="0.2s">
                         <span class="card-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg></span>
                         <h3>Valores</h3>
                         <ul class="check-list" style="margin:0">
@@ -129,15 +130,15 @@
                     <p>Cada etapa la construimos junto a nuestros clientes.</p>
                 </div>
                 <ol class="timeline">
-                    <li><span class="timeline-year">2016</span><h3>Abrimos en el Mercado Carapongo</h3>
+                    <li class="wow animate__fadeInUp" data-wow-delay="0.0s"><span class="timeline-year">2016</span><h3>Abrimos en el Mercado Carapongo</h3>
                         <p>Un puesto pequeño con polos y camisas para el día a día.</p></li>
-                    <li><span class="timeline-year">2018</span><h3>Más variedad</h3>
+                    <li class="wow animate__fadeInUp" data-wow-delay="0.1s"><span class="timeline-year">2018</span><h3>Más variedad</h3>
                         <p>Sumamos jeans y casacas para toda la familia.</p></li>
-                    <li><span class="timeline-year">2020</span><h3>Pedidos por WhatsApp</h3>
+                    <li class="wow animate__fadeInUp" data-wow-delay="0.2s"><span class="timeline-year">2020</span><h3>Pedidos por WhatsApp</h3>
                         <p>Empezamos a atender a distancia y a separar prendas para recoger en tienda.</p></li>
-                    <li><span class="timeline-year">2023</span><h3>Llegan las zapatillas</h3>
+                    <li class="wow animate__fadeInUp" data-wow-delay="0.3s"><span class="timeline-year">2023</span><h3>Llegan las zapatillas</h3>
                         <p>Completamos el look con calzado urbano y deportivo.</p></li>
-                    <li><span class="timeline-year">Hoy</span><h3>Catálogo en línea</h3>
+                    <li class="wow animate__fadeInUp" data-wow-delay="0.4s"><span class="timeline-year">Hoy</span><h3>Catálogo en línea</h3>
                         <p>Puedes ver nuestros productos, tallas y colores desde esta web.</p></li>
                 </ol>
             </div>
@@ -146,7 +147,7 @@
         <!-- Ubicación -->
         <section class="section section-alt" aria-labelledby="ubicacion-title">
             <div class="container visit">
-                <div class="visit-card">
+                <div class="visit-card wow animate__fadeInUp">
                     <span class="eyebrow">Dónde estamos</span>
                     <h2 id="ubicacion-title">Te esperamos en la tienda</h2>
                     <ul class="info-list">
@@ -160,7 +161,7 @@
                         <a class="btn btn-light" href="contacto.html">Contáctanos</a>
                     </div>
                 </div>
-                <div class="map-box map-lazy" data-cfg="mapa-diferido"><p>El mapa de Google Maps se carga solo si lo pides.</p><button type="button" class="btn btn-primary btn-sm" data-map-load>Mostrar mapa</button></div>
+                <div class="map-box map-lazy wow animate__fadeInUp" data-wow-delay="0.15s" data-cfg="mapa-diferido"><p>El mapa de Google Maps se carga solo si lo pides.</p><button type="button" class="btn btn-primary btn-sm" data-map-load>Mostrar mapa</button></div>
             </div>
         </section>
     </main>
@@ -227,5 +228,7 @@
     <script src="js/icons.js" defer></script>
     <script src="js/ui.js" defer></script>
     <script src="js/layout.js" defer></script>
+    <script src="js/vendor/wow.min.js" defer></script>
+    <script src="js/animaciones.js" defer></script>
 </body>
 </html>

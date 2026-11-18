@@ -21,6 +21,9 @@
     };
 
     let catalogo = [];
+    // Las tarjetas aparecen animadas solo la primera vez; al cambiar un filtro se muestran directo
+    // (si no, se re-animaría toda la grilla con cada tecla).
+    let primeraCarga = true;
 
     toggle.addEventListener('click', () => {
         const open = form.classList.toggle('open');
@@ -116,10 +119,11 @@
 
         count.textContent = `${resultado.length} ${resultado.length === 1 ? 'producto' : 'productos'}`;
         grid.replaceChildren(...(resultado.length
-            ? resultado.map((p) => productCard(p, abrir))
+            ? resultado.map((p, i) => (primeraCarga ? DoGo.animar(productCard(p, abrir), i) : productCard(p, abrir)))
             : [h('div', { className: 'empty-state' },
                 h('p', {}, 'No encontramos productos con esos filtros.'),
                 h('button', { type: 'button', className: 'btn btn-outline btn-sm', onclick: () => form.reset() }, 'Limpiar filtros'))]));
+        primeraCarga = false;
     }
 
     function abrir(p) {

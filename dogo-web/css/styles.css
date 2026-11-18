@@ -39,6 +39,18 @@ html { scroll-behavior: smooth; }
     *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
 
+/* ---------- Animaciones al hacer scroll (animate.css + WOW.js, ver js/animaciones.js) ----------
+   Versión más sutil que la original de animate.css: menos duración y desplazamientos cortos
+   (la original mueve el 100% del alto/ancho del elemento). Al definirse después de animate.min.css,
+   estos @keyframes reemplazan a los suyos. */
+:root { --animate-duration: 0.7s; }
+@keyframes fadeInUp { from { opacity: 0; transform: translate3d(0, 28px, 0); } to { opacity: 1; transform: none; } }
+@keyframes fadeInLeft { from { opacity: 0; transform: translate3d(-32px, 0, 0); } to { opacity: 1; transform: none; } }
+@keyframes fadeInRight { from { opacity: 0; transform: translate3d(32px, 0, 0); } to { opacity: 1; transform: none; } }
+@keyframes zoomIn { from { opacity: 0; transform: scale3d(0.94, 0.94, 0.94); } to { opacity: 1; transform: none; } }
+/* Evita scroll horizontal mientras un elemento entra desde un costado (clip no crea contenedor de scroll) */
+main { overflow-x: clip; }
+
 body {
     font-family: var(--font-body);
     color: var(--ink);
